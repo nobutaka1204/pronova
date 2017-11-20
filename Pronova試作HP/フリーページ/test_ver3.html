@@ -1,0 +1,267 @@
+<!--本テキスト-->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>タイトル</title>
+    
+    <!--以下CSSの内容-->
+    <style type="text/css">
+        
+        /*画面に応じてサイズ変更*/
+        @media screen and (min-width: 600px) {
+            .mainContents{
+                display: block;
+                width: 70%;
+                
+            }
+            .subContents{
+                display: block;
+                background-color:#EDF7FF;
+            }
+        }
+
+        @media screen and (max-width: 599px) {
+            .mainContents{
+                display: block;
+                width: 100%;
+                
+            }
+            .subContents{
+                display: none;
+            }
+        }
+        
+        
+        .breadList li{
+            display: inline-block;
+        }
+        
+        .abstract h1{
+            margin-left: 10px;
+            border-bottom: 5px solid gray;
+        }
+        
+        .abstract p{
+            margin-left: 10px;
+            font-size: 20px;
+        }
+        
+        h2{
+            font-size: 185%;
+            border-left:15px solid gray;
+            padding-left: 10px;
+            margin-left: 10px;
+            margin-bottom: 20px;
+            clear: left;    /*毎度回り込みを戻す*/
+        }
+        
+        h3{
+            color: white;
+            background-color: gray;
+            display:inline;
+            font-size: 130%;
+            padding: 5px;
+            margin-left: 20px;
+        }
+        h4{
+            font-size: 130%;
+            margin-top:10px;
+            margin-bottom:5px;
+        }
+
+        ul{
+            font-size: 17px;
+            margin-top: 10px;
+            margin-left: 30px;
+        }
+        
+        
+        .mainImage img{
+            /*display: block;*/
+            /*画像サイズ変える*/
+            width: 100%;
+            height: auto;
+            margin-left:auto;
+            margin-right:auto;
+            
+        }
+        .subImage img{
+            width: 50%;
+            height: auto;
+            float: left;
+            margin-right: 20px;
+        }
+        
+        .mainText{
+            clear: left;    /*毎度回り込みを戻す*/
+            font-size: 18px;
+        }
+        
+        .subText{
+            font-size: 18px;
+        }
+        
+        .rankingBox{
+            position: absolute;
+            top:7%;
+            right:14%;
+            width: 20%;
+            margin: auto;
+            background-color:#EDF7FF;
+        }
+
+        .recommendBox{
+            position: absolute;
+            /*ランキングのコンテンツ量に応じて位置変更*/
+            top:<{$seller_num*8+10}>%;
+            right:14%;
+            width: 20%;
+            margin: auto;
+        }
+
+        .recommendBox img{
+            margin-top: 20px;
+        }
+
+        .price{
+            text-align: right;
+            padding-bottom: 15px;
+            border-bottom: 3px solid gray;
+        }
+        
+    </style>
+    
+</head>
+    
+<body>
+    <!--パンくず-->
+    <ul class="breadList">
+        <li><a href="http://pro-nova.jp">
+            <i class="fa fa-home" aria-hidden="true"></i>ホーム</a> > </li>
+        <li><a href="http://pro-nova.jp/?mode=f1">NEWS</a> > </li>
+        <li>今のページ</li>
+    </ul>
+    
+    <div class="mainContents">
+    
+        <div class="abstract">
+            <h1>
+                世界最小クラスのBluetoothステレオイヤホン「EARIN」の実力は！？
+            </h1>
+            <p>
+                概要（３行程度）
+                <br><br>
+            </p>
+        </div>
+
+            <div class="index">
+            <h2>目次</h2>
+                <h3>目次</h3>
+                <ul>
+                    <li><a href="#01">EARINとは</a></li>
+                    <li><a href="#02">EARINの特徴は</a></li>
+                    <li><a href="#03">EARINの注意点</a></li>
+                </ul>
+            </div>
+
+            <!--目次からジャンプ-->
+            <div class="content1">
+            <h2 id="01">EARINとは</h2>
+                <div class="image">
+                    <p class="mainImage">
+                        <img src="https://img21.shop-pro.jp/PA01374/799/etc/_.jpg?cmsp_timestamp=20170519112204" alt="画像大の名前">
+                    </p>
+                </div>
+                    <div class="text">
+                        <p class="mainText">
+                             スウェーデンのルンド市内で設立されたオーディオ機器メーカー“EARIN”は、Bluetooth3.0/4.0対応の完璧なワイヤレスイヤフォンを開発しました。Kickstarter上で世界中のオーディオファン、ガジェットマニアに話題となり150万ドルの出資金を集め、世界的ヒットとなったイヤホンです。
+                        </p>
+                    </div>
+            </div>
+
+            <div class="content2">
+            <h2 id="02">EARINの特徴は</h2>
+                <div class="image">
+                    <p class="mainImage">
+                        <img src="https://img21.shop-pro.jp/PA01374/799/etc/4.jpg?cmsp_timestamp=20170519112233" alt="画像大の名前">
+                    </p>
+                </div>
+                <div class="text">
+                        <p class="mainText">
+                             EARINの最大の特徴はなんといっても左右のイヤホンが独立している完全コードレスなデザインです。EARIN M-1は、そのEARINのマイナーチェンジ版。優れた工業製品に与えられる「IFデザイン賞」のデザインをそのまま活かし、アルミシルバーとブラックの２ラインアップになりました。
+    IFデザイン賞受賞のお洒落なデザインでさらにシルバーとブラックの2色に増えたので普段のファッションにも合わせやすいですね。
+    ドライバーはバランスド・アーマチュア型。コプライ社製のフォームイヤチップを標準装備。サポートオーディオコーデックスはAAC, apt-x, SBCです。遮音性が良く、解像度の高いサウンドを再生します。これだけのカスタマイズならオーディオファンたちが話題にするのも納得ですね。
+    本体重量が3.5gでサイズは14.5mm x 20.0mmの超軽量・超小型タイプなので重さも感じることなくつけ心地は非常に優れています。EARINは日常の動作に対応すべく、落下しにくい設計になっておりますが、更に着実に装着するためにシリコン製のスタビライザーを付属しております。
+    EARINは非常に小さいため、音量調節、バッテリー残量・Ｌ／Ｒのバランス設定、ベースブースト等の調整はアプリを通して行います。
+                        </p>
+                    </div>
+
+            </div>
+
+            <div class="content3">  
+            <h2 id="03">EARINの注意点</h2>
+            <div class="text">
+                <p class="mainText">
+                     連続再生時間は最大約３時間となります。携帯用収納カプセルが充電器となっており、充電すれば更約2.5時間から３時間ご使用になれます。モバイル充電でイヤフォンを３回充電出来ます。
+                </p>
+            </div>
+            </div>
+
+
+            <p>引用文</p>
+            <!--リンク(未実装)-->
+            <!--youtubeリンク-->
+            
+    </div>
+        
+        <!--パンくず-->
+    <ul class="breadList">
+        <li><a href="http://pro-nova.jp">
+            <i class="fa fa-home" aria-hidden="true"></i>ホーム</a> > </li>
+        <li><a href="http://pro-nova.jp/?mode=f1">NEWS</a> > </li>
+        <li>今のページ</li>
+    </ul>
+    
+    <div class="subContents">
+        <!-- ランキング-->
+        <div class="rankingBox">
+            <h3><i class="fa fa-line-chart" aria-hidden="true"></i>
+                売れ筋ランキング</h3>
+            <{if $seller_num != 0}>
+                <{section name=num loop=$seller}>
+                    <h4>第<{$smarty.section.num.iteration}>位</h4>
+                    <!-- そのランクの商品の画像表示-->
+                    <a href="<{$seller[num].link_url}>"><img src="<{$seller[num].img_url}>"></a>
+                    <!-- そのランクの商品の名前表示-->
+                    <a href="<{$seller[num].link_url}>"><{$seller[num].name}></a>
+                    <div class="price">
+                        <{$seller[num].price}>
+                    </div>
+                <{/section}>
+            <{/if}>
+        </div>
+
+        <!-- おすすめ-->
+        <div class="recommendBox">
+            <h3><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                おすすめ</h3>
+
+            <{if $recommend_num != 0}>
+                <{section name=num loop=$recommend}>
+                    <!-- おすすめ商品の画像表示-->
+                    <a href="<{$recommend[num].link_url}>"><img src="<{$recommend[num].img_url}>"></a><br>
+                    <!-- おすすめ商品の名前表示-->
+                    <a href="<{$recommend[num].link_url}>"><{$recommend[num].name}></a>
+                    <div class="price">
+                        <{$seller[num].price}>
+                    </div>
+                <{/section}>
+            <{/if}>
+        </div>
+    </div>
+            
+        
+        
+</body>
+</html>

@@ -1,0 +1,704 @@
+<div id="product">
+  <{if $product.id != ""}>
+    <ul class="breadcrumb google-font">
+      <!-- パンくずナビ -->
+        <li><a href="<{$home_url}>"  onclick="getprice();"><I class="fa fa-home" aria-hidden="true"></I>ホーム</a></li>
+        <{if $bid_name != ""}><li><span>&gt;</span></li>
+			   <li><a href="<{$bid_link}>"><{$bid_name}></a></li><{/if}>
+			   <{if $sid_name != ""}><li><span>&gt;</span></li>
+					<li><a href="<{$sid_link}>"><{$sid_name}></a></li><{/if}>
+			   <{if $product_name != ""}><li><span>&gt;</span></li>
+					<li><p><{$product_name}></p></li><{/if}>
+      <!--// パンくずナビ -->
+    </ul>
+	
+    <form name="product_form" method="post" action="<{$cart_url}>">
+      <div class="product-contents row">
+        <!-- 商品画像 -->
+          <div id="product-image" class="row col col-sm-12 col-lg-8">
+            <div class="product-image-main">
+              <{if $product.img_url != ""}>
+                <img src="<{$product.img_url}>" class="mainImage" />
+              <{else}>
+                <img src="https://img.shop-pro.jp/tmpl_img/74/noimage.gif" class="mainImage" alt="<{$productlist[num].name}>" />
+              <{/if}>
+            </div>
+            <div class="product-image-thumb">
+              <ul class="row custom-thumb prd-lst">
+                <li class="col col-lg-3 prd-lst-unit">
+                  <{if $product.img_url != ""}>
+                    <img src="<{$product.img_url}>" class="thumb" />
+                  <{else}>
+                    <img src="https://img.shop-pro.jp/tmpl_img/74/noimage.gif" class="thumb" alt="<{$productlist[num].name}>" />
+                  <{/if}>
+                </li>
+                <{section name=num loop=$otherimg}>
+                  <{if $otherimg[num].url != ""}>
+                    <li class="col  col-lg-3 prd-lst-unit">
+                      <img src="<{$otherimg[num].url}>" class="thumb" />
+                    </li>
+                  <{/if}>
+                <{/section}>
+              </ul>
+            </div>
+          </div>
+        <!-- //商品画像 -->
+
+        <!-- カート -->
+        <script>
+        $(function() {
+          var fixed_Box = $("#bottom_product-cart");
+          var navOst = fixed_Box.offset().top; // 枠のトップ位置(画面内の位置)
+          $(window).scroll( function() { // スクロール
+						var footer_top = document.getElementById("footer-wrapper").getBoundingClientRect().top ; // フッターのトップ位置(画面内の位置)
+					//console.log(footer_top - $("#bottom_product-cart").height());
+						if( $("#container").width() <= 768){ // ウィンドウの幅が狭いとき, 設定外す
+							//console.log("here1");
+							document.getElementById("bottom_product-cart").style.position="relative";
+							document.getElementById("bottom_product-cart").style.bottom="auto";
+							fixed_Box.removeClass("middle_product-cart");
+              fixed_Box.removeClass("top_product-cart");
+						}else if( footer_top - $("#bottom_product-cart").height() < 0 ){ // フッターの真上のとき, 
+							//console.log("here2");
+              fixed_Box.removeClass("middle_product-cart");
+              fixed_Box.removeClass("top_product-cart");
+              document.getElementById("bottom_product-cart").style.position="fixed";
+              document.getElementById("bottom_product-cart").style.bottom=window.innerHeight-footer_top +1 +"px";
+						}else if( $(window).scrollTop() > navOst - 25){ // スクロール追従, 
+							//console.log("here3");
+              fixed_Box.addClass("middle_product-cart");
+              fixed_Box.removeClass("top_product-cart");
+            }else{ // 追従開始前のとき, 
+							//console.log("here4");
+              fixed_Box.removeClass("middle_product-cart");
+              fixed_Box.addClass("top_product-cart");
+            }
+          });
+					
+					$(window).on('load resize', function(){ // ウィンドウサイズ更新
+						var footer_top = document.getElementById("footer-wrapper").getBoundingClientRect().top ; // フッターのトップ位置(画面内の位置)
+						//console.log("koko");
+						//console.log($("#container").width());
+						if( $("#container").width() <= 768){ // 768以下のとき, グリッドレイアウト
+						//console.log("here5");
+							document.getElementById("product-cart").style.display="none";
+						 	document.getElementById("narrow_window_product-cart").style.display="block";
+						}else{ // 768より大きいとき, 追従モード
+							//console.log("here6");
+							document.getElementById("product-cart").style.display="block";
+						 	document.getElementById("narrow_window_product-cart").style.display="none";
+							//console.log($("#bottom_product-cart").height());
+							if( footer_top - $("#bottom_product-cart").height() < 0 ){ // フッターの真上のとき, 
+								//console.log("here7");
+            	  fixed_Box.removeClass("middle_product-cart");
+              	fixed_Box.removeClass("top_product-cart");
+              	document.getElementById("bottom_product-cart").style.position="fixed";
+              	document.getElementById("bottom_product-cart").style.bottom=window.innerHeight-footer_top +1 +"px";
+							}else if( $(window).scrollTop() > navOst - 25){ // スクロール追従, 
+								//console.log("here8");
+              	fixed_Box.addClass("middle_product-cart");
+              	fixed_Box.removeClass("top_product-cart");
+         	   }else{ // 追従開始前のとき, 
+							 //console.log("here9");
+            	  fixed_Box.removeClass("middle_product-cart");
+              	fixed_Box.addClass("top_product-cart");
+           	 }
+						}
+					});
+        });
+        </script>
+        
+        <!-- カート -->
+        <div id="product-cart">
+          <div id="bottom_product-cart">
+            <h2 class="product-name"><{$product_name}></h2>
+            <div class="product-order">
+              <ul class="unstyled product-order-price">
+                <{if $members_login_flg == true && $product.discount_flg == true}>
+                 <li class="product-order-regular">
+                    <{$product.regular_price}>
+                  </li>
+                <{/if}>
+                <li>
+									価格：
+									<span class="main_price"><{$product.sales|regex_replace:"[[\(]+[\S]+[\)]]":""}></span>(税込)   
+									<br>
+									<p class="sub_price">+<a href=<{$members_regi_url}> target="_blank">会員</a>は<strong>送料無料</strong></p><p class="sub_price">+<a href=<{$sk_url}> target="_blank">決済手数料</a></p>
+                </li>              
+								 
+                <{if $members_login_flg == true && $product.discount_flg == true}>
+                  <li class="product-order-discount">
+                    <{$product.discount_rate}>OFF!!
+                  </li>
+                <{/if}>
+              </ul>
+	
+<!--配送予定日を指定-->	<{if $product.simple_explain != ""}><p class="delivery-date"></p><{/if}>
+										<!--（未実装）-->
+								   <!--<p class="manual-link">購入前にお読みください</p>-->
+
+
+								
+<script>
+var date = document.getElementsByClassName("delivery-date");
+//今日の日付データを変数hidukeに格納
+var dat=new Date(); 
+//年・月・日・曜日を取得する
+var year = dat.getFullYear();
+var month = dat.getMonth()+1;
+var week = dat.getDay();
+var day = dat.getDate() ;
+dat.setDate(day+<{$product.simple_explain}>);
+console.log(dat.getUTCMonth());
+console.log(dat.getUTCDate()+1);
+var yobi= new Array("日","月","火","水","木","金","土");
+console.log(date[0]);
+date[0].innerHTML =  dat.getUTCMonth()+1 + "月" + dat.getUTCDate() + "日までに配送予定";
+</script>
+              <{if $product.model != "" || ($product.price_disp && $product.price != $product.sales) || $product.weight != "" || $product.stock_disp !=""}>
+							      <!--鑓水変更点-->
+							      <!--
+                <table class="table product-order-spec">
+                  <{if $product.model != ""}>
+                    <tr>
+                      <th>型番</th>
+                      <td><{$product.model}></td>
+                    </tr>
+                  <{/if}>
+                  <{if $product.price_disp && $product.price != $product.sales}>
+                    <tr>
+                      <th>定価</th>
+                      <td><{$product.price}></td>
+                    </tr>
+                  <{/if}>
+                  <{if $product.weight != ""}>
+                    <tr>
+                      <th>重量</th>
+                      <td><{$product.weight}>g</td>
+                    </tr>
+                  <{/if}>
+                  <{if $product.stock_disp !=""}>
+                    <tr>
+                      <th>在庫状況</th>
+                      <td><{$product.stock_str}></td>
+                    </tr>
+                  <{/if}>
+                </table>
+                -->               
+ 
+              <{/if}>
+              <{if $opt_url != ""}>
+                <div class="product-option">
+                  <{if $option_output_mode}>
+                    <div id="prd-opt-table" class="table product-option-table">
+                      <{$option_table}>
+                    </div>
+                    <div class="product-option-select clearfix">
+                      <div id="prd-opt-select" class="product-option-wrapper">
+                        <{section name=num loop=$option}>
+                          <div class="product-option-unit">
+                            <div>
+                              <span class="option-select-name option-name"><{$option[num].name}></span>
+                              <select name="<{$option[num].select_name}>" class="design-select-box">
+                                <{html_options values=$option_value[num].id output=$option_value[num].name selected=$key}>
+                              </select>
+                            </div>
+                          </div>
+                        <{/section}>
+                      </div>
+                    </div>
+                  <{else}>
+                    <div class="product-option-select clearfix">
+                      <div class="product-option-wrapper">
+                        <{section name=num loop=$option}>
+                          <div class="product-option-unit">
+                            <div>
+                              <span class="option-select-name option-name">  <{$option[num].name}>
+                              </span>
+                              <select name="<{$option[num].select_name}>">
+                                <{html_options values=$option_value[num].id output=$option_value[num].name selected=$key}>
+                              </select>
+                            </div>
+                          </div>
+                        <{/section}>
+                      </div>
+                    </div>
+                  <{/if}>
+                </div>
+              <{/if}>
+              <{if $product.product_text_titles}>
+                <div class="text-titles clearfix">
+                  <div class="text-titles-list">
+                    <{foreach from=$product.product_text_titles key=key item=val}>
+                      <div class="text-titles-list__unit">
+                        <span class="option-name text-titles-list__name"><{$val|escape}></span>
+                        <div class="input-border text-titles-list__detail">
+                          <input type="text" name="product_text[<{$key|escape}>]" value="" class="text-titles-list__detail-text" />
+                        </div>
+                      </div>
+                    <{/foreach}>
+                  </div>
+                </div>
+              <{/if}>
+              <{if $product.password_field}>
+                <div class="password-field-wrap clearfix">
+                  <div class="password-field-list">
+                    <div class="password-field-list__unit">
+                      <span class="option-name password-field-list__name">この商品を購入するにはパスワードを入力してください</span>
+                      <div class="input-border password-field-list__detail">
+                        <{$product.password_field}>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <{/if}>
+              <div class="product-order-input">
+              <{if $shop_stop_flg == false && $product.soldout_flg == 0 && $product.login_sale_flg == false}>
+                <div class="product-order-num">
+                  <div class="product-unit option-name">
+                    数量
+										     <!--<{if $product.unit != ""}>（<{$product.unit}>）<{/if}>-->
+                  </div>
+                  <div class="input-border">
+                    <input type="text" name="product_num" value="<{$product.init_num}>" class="product-init-num" />
+                  </div>
+                </div>
+              <{/if}>
+              <{if $product.soldout_flg == 0 && $shop_stop_flg == false && $product.login_sale_flg == false}>
+								
+								<!--コンバージョン用にコードを追加-->
+                <div class="disable_cartin">
+                  <button class="btn btn-01 btn-lg btn-addcart"  onClick="ga('send', 'event',  'cart', 'click');">
+                    <div class="btn-wrap">
+                      <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+											        <span class="google-font">商品を購入する</span>
+                    </div>
+                  </button>
+                </div>
+								   
+								   <div class="product__fav-item">
+											<div class="product__fav-item btn btn-01 btn-lg btn-fav" <{favorite_button_attribute product_id= $product.id added_class="fav-items"}>>
+												<svg role="img" aria-hidden="true"><use xlink:href="#heart"></use></svg>&nbsp;<span class="google-font">お気に入り</span>
+                </div>
+								   </div>		
+
+                <{if $easy_order_flg == true}>
+                  <div class="disable_quick">
+                    <a href="<{$easy_order_url}>" class="btn btn-01 btn-lg btn-quick">
+                      <div class="btn-wrap">
+                        <i class="icon-lg-b icon-paper_plane"></i>
+                        <span>クイック購入</span>
+                      </div>
+                    </a>
+                  </div>
+                <{/if}>
+              <{else}>
+                <div>
+                  <{if $product.soldout_flg == 1}>
+                    <button class="btn btn-01 btn-lg btn-block" type="button" disabled="disabled">
+											      <div class="btn-wrap">
+															  <i class="icon-lg-b icon-circled_minus"></i><span class="google-font">sold out</span>
+											      </div></button>
+                  <{elseif $product.login_sale_flg == true}>
+                    <div class="product-member-sale-msg">会員のみ購入できます</div>
+                  <{/if}>
+                </div>
+              <{/if}>
+							   
+              <p class="stock_error"></p>
+              
+              </div>
+
+            </div>
+						   
+
+            <div class="product-info-lst container-section">
+              <ul class="unstyled">
+               <{if $review_use_flg == true}>
+								     <li>
+											   <a href="<{$review_lst_url}>">
+											     <{if $review_item_num != ""}> 
+													    <span class="review_star"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+								          <{ /if }>
+													   レビュー<{$review_item_num}>件
+											   </a>
+								     </li>
+								     <li><a href="<{$review_send_url}>">レビューを投稿</a></li>
+               <{/if}>
+								
+<!--レビューの平均値を表示-->
+<script type="text/javascript">
+	var sum = 0; 
+	var ave = 0;
+	var rev = document.getElementsByClassName("review_star");
+	<{if $review_item_num != ""}> 
+	　　　　<{assign var="m_num" value=3}> 
+	　　　　<{section name=num loop=$reviewlist max=$m_num}>	
+	　　　　　　　　sum = sum + <{ $reviewlist[num].star}>;
+			　　　　//console.log(sum);	
+        <{/section}> 
+	<{ /if }>
+  ave = Math.ceil(sum/<{$review_item_num}>);
+	if(rev[0] !=  undefined){
+	 rev[0].innerHTML = '<img src="http://secure.shop-pro.jp/img/star_0' + ave + '.png" />';		
+	}
+</script>								
+								
+								    <!--
+               <{if $opt_url != ""}>
+               　<li><a href="<{$opt_url}>">オプションの値段詳細</a></li>
+               <{/if}>
+								    -->
+								    <li><a href=<{$view_inq_url}> target="_blank">商品へのお問い合わせ</a></li>
+                <li><a href="<{$sk_url}>#info">特定商取引法に基づく表記<br>（返品等）</a></li>
+								　　　　　
+								
+                <li class="social-share">
+                  <{* カラメルお気に入り *}>
+                    <{$calamel_favorite_link_button}>
+                </li>
+              </ul>
+							
+            </div>
+          </div>
+        </div>
+        <!-- //カート -->
+				
+				<!-- カート -->
+				<!-- -->
+        <div id="narrow_window_product-cart" class="col col-sm-12 col-md-12">
+          <div id="narrow_product-cart">
+            <h2 class="product-name"><{$product_name}></h2>
+            <div class="product-order">
+              <div class="campaign">
+                <p style="color:red;font-weight:bold;">今ならレビュー投稿で2000円引き！</p>
+              </div>
+              <ul class="unstyled product-order-price">
+                <{if $members_login_flg == true && $product.discount_flg == true}>
+                 <li class="product-order-regular">
+                    <{$product.regular_price}>
+                  </li>
+                <{/if}>
+                <li>
+                  <{$product.sales}>
+                </li>
+                <{if $members_login_flg == true && $product.discount_flg == true}>
+                  <li class="product-order-discount">
+                    <{$product.discount_rate}>OFF!!
+                  </li>
+                <{/if}>
+              </ul>
+              <{if $product.model != "" || ($product.price_disp && $product.price != $product.sales) || $product.weight != "" || $product.stock_disp !=""}>
+							　　　　　　　<!--
+                <table class="table product-order-spec">
+                  <{if $product.model != ""}>
+                    <tr>
+                      <th>型番</th>
+                      <td><{$product.model}></td>
+                    </tr>
+                  <{/if}>
+                  <{if $product.price_disp && $product.price != $product.sales}>
+                    <tr>
+                      <th>定価</th>
+                      <td><{$product.price}></td>
+                    </tr>
+                  <{/if}>
+                  <{if $product.weight != ""}>
+                    <tr>
+                      <th>重量</th>
+                      <td><{$product.weight}>g</td>
+                    </tr>
+                  <{/if}>
+                  <{if $product.stock_disp !=""}>
+                    <tr>
+                      <th>在庫状況</th>
+                      <td><{$product.stock_str}></td>
+                    </tr>
+                  <{/if}>
+                </table>
+                -->
+              <{/if}>
+              <{if $opt_url != ""}>
+                <div class="product-option">
+                  <{if $option_output_mode}>
+                    <div id="prd-opt-table" class="table product-option-table">
+                      <{$option_table}>
+                    </div>
+                    <div class="product-option-select clearfix">
+                      <div id="prd-opt-select" class="product-option-wrapper">
+                        <{section name=num loop=$option}>
+                          <div class="product-option-unit">
+                            <div>
+                              <span class="option-select-name option-name"><{$option[num].name}></span>
+                              <select name="<{$option[num].select_name}>" class="design-select-box">
+                                <{html_options values=$option_value[num].id output=$option_value[num].name selected=$key}>
+                              </select>
+                            </div>
+                          </div>
+                        <{/section}>
+                      </div>
+                    </div>
+                  <{else}>
+                    <div class="product-option-select clearfix">
+                      <div class="product-option-wrapper">
+                        <{section name=num loop=$option}>
+                          <div class="product-option-unit">
+                            <div>
+                              <span class="option-select-name option-name">  <{$option[num].name}>
+                              </span>
+															        <!--鑓水変更点（ここをコメントアウトしないとプルダウンメニューが使えなくなる）-->
+															        <!--
+                              <select name="<{$option[num].select_name}>">
+                                <{html_options values=$option_value[num].id output=$option_value[num].name selected=$key}>
+                              </select>
+                              -->
+                            </div>
+                          </div>
+                        <{/section}>
+                      </div>
+                    </div>
+                  <{/if}>
+                </div>
+              <{/if}>
+              <{if $product.product_text_titles}>
+                <div class="text-titles clearfix">
+                  <div class="text-titles-list">
+                    <{foreach from=$product.product_text_titles key=key item=val}>
+                      <div class="text-titles-list__unit">
+                        <span class="option-name text-titles-list__name"><{$val|escape}></span>
+                        <div class="input-border text-titles-list__detail">
+                          <input type="text" name="product_text[<{$key|escape}>]" value="" class="text-titles-list__detail-text" />
+                        </div>
+                      </div>
+                    <{/foreach}>
+                  </div>
+                </div>
+              <{/if}>
+              <{if $product.password_field}>
+                <div class="password-field-wrap clearfix">
+                  <div class="password-field-list">
+                    <div class="password-field-list__unit">
+                      <span class="option-name password-field-list__name">この商品を購入するにはパスワードを入力してください</span>
+                      <div class="input-border password-field-list__detail">
+                        <{$product.password_field}>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <{/if}>
+              <div class="product-order-input">
+              <{if $shop_stop_flg == false && $product.soldout_flg == 0 && $product.login_sale_flg == false}>
+                <div class="product-order-num">
+                  <div class="product-unit option-name">
+                    数量
+										      <!--<{if $product.unit != ""}>（<{$product.unit}>）<{/if}>-->
+                  </div>
+                  <div class="input-border">
+                    <input type="text" name="product_num" value="<{$product.init_num}>" class="product-init-num" />
+                  </div>
+                </div>
+              <{/if}>
+              <{if $product.soldout_flg == 0 && $shop_stop_flg == false && $product.login_sale_flg == false}>
+                <div class="disable_cartin">
+                  <button class="btn btn-01 btn-lg btn-addcart" type="submit"  onClick="ga('send', 'event',  'cart', 'click');">
+                    <div class="btn-wrap">
+                      <i class="icon-lg-b icon-cart"></i>
+                      <span class="google-font">add to cart</span>
+                    </div>
+                  </button>
+                </div>
+                <{if $easy_order_flg == true}>
+                  <div class="disable_quick">
+                    <a href="<{$easy_order_url}>" class="btn btn-01 btn-lg btn-quick">
+                      <div class="btn-wrap">
+                        <i class="icon-lg-b icon-paper_plane"></i>
+                        <span>クイック購入</span>
+                      </div>
+                    </a>
+                  </div>
+                <{/if}>
+              <{else}>
+                <div>
+                  <{if $product.soldout_flg == 1}>
+                    <button class="btn btn-01 btn-lg btn-block" type="button" disabled="disabled"><div class="btn-wrap"><i class="icon-lg-b icon-circled_minus"></i><span class="google-font">sold out</span></div></button>
+                  <{elseif $product.login_sale_flg == true}>
+                    <div class="product-member-sale-msg">会員のみ購入できます</div>
+                  <{/if}>
+                </div>
+              <{/if}>
+              <p class="stock_error"></p>
+              </div>
+            </div>
+            <div class="product-info-lst container-section">
+              <ul class="unstyled">
+              <{if $review_use_flg == true}>
+								    <li><a href="<{$review_lst_url}>">レビューを見る(<{$review_item_num}>件)</a></li>
+								    <li><a href="<{$review_send_url}>">レビューを投稿</a></li>
+              <{/if}>
+                <!--
+								     <{if $opt_url != ""}>
+                  <!--<li><a href="<{$opt_url}>">オプションの値段詳細</a></li>
+                <{/if}>
+                -->
+								     <li><a href=<{$view_inq_url}> target="_blank">商品へのお問い合わせ</a></li>
+                <li><a href="<{$sk_url}>#info">特定商取引法に基づく表記（返品等）</a></li>
+                <li class="social-share">
+                  <{* カラメルお気に入り *}>
+                    <{$calamel_favorite_link_button}>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+				
+        <!-- //カート -->
+
+        <!-- 商品説明文 -->
+          <{if $product.explain != ""}>
+          <div class="product-order-exp row col col-sm-12 col-lg-8">
+            <{$product.explain}>
+          </div>
+          <{/if}>
+ 
+        <!-- //商品説明文 -->
+          <{$product.info}>
+        
+<!-- レビュー -->
+<{ if $review_item_num != "" }> 
+<{ if $review_use_flg}> 
+<{assign var="m_num" value=3}> 
+<h2 class="reviewlist row col col-sm-12 col-lg-8">この商品のレビュー</h2>
+<{section name=num loop=$reviewlist max=$m_num}>
+<div class="reviewlist row col col-sm-12 col-lg-8">
+  <div class="reviewlist_datas">
+    <div class="icon_star"><img src="http://secure.shop-pro.jp/img/star_<{ $reviewlist[num].star|string_format:"%02d" }>.png" /></div>
+    <ul class="review_poster">
+      <li><{ $reviewlist[num].nickname }></li>
+      <li><{ $reviewlist[num].nendai }></li>
+      <li><{ $reviewlist[num].sex }></li>
+      <li><{ $reviewlist[num].date }></li>
+    </ul>
+  </div>
+  <div class="reviewlist_content">
+    <div class="review_ttl"><{ $reviewlist[num].title }></div>
+    <{if $reviewlist[num].img_url != ""}> 
+      <img src="<{$reviewlist[num].img_url}>" class="review_img" width="100" />
+    <{ /if }>
+    <div><{ $reviewlist[num].comment }></div>
+  </div>
+
+  <!-- ショップからの返信コメント--> 
+  <{if $reviewlist[num].res_comment != ""}> 
+  <div class="shopcomment">
+    <div class="shopcomment_ttl">ショップからのコメント</div>
+    <{ $reviewlist[num].res_comment }>（<{ $reviewlist[num].res_date }>）
+  </div>
+  <{ /if }> 
+</div>
+<{/section}> 
+<{ /if }> 
+<{ /if }>
+<!-- レビュー完 -->
+
+      </div>
+    </form>
+  <{else}>
+    <{if $product.hide_flg == true}>
+      <p class="not-found">この商品を閲覧するにはログインが必要です。</p>
+    <{else}>
+      <p class="not-found">現在、この商品は扱っておりません。</p>
+    <{/if}>
+  <{/if}>
+ <!-- //product-contents -->
+
+<{if $together_product_num != 0}>
+  <!-- 組合せ購入 -->
+  <div class="together-block">
+    <h2 class="ttl-h2"><span class="google-font">あなたにおすすめの商品</span></h2>
+    <div class="prd-lst row">
+      <{section name=num loop=$together_product}>
+        <div class="prd-lst-unit col-lg-4 col">
+          <a href="<{$together_product[num].link_url}>" class="prd-lst-link">
+            <div class="unit-inner">
+              <{if $together_product[num].large_img_url != ""}>
+                <img src="<{$together_product[num].large_img_url}>" class="prd-lst-img" alt="<{$together_product[num].name}>" />
+              <{else}>
+                <img src="https://img.shop-pro.jp/tmpl_img/74/noimage.gif" class="prd-lst-img" alt="<{$together_product[num].name}>" />
+              <{/if}>
+              <div class="prd-lst-cap">
+                <div class="prd-lst-cap-inner">
+                  <span class="prd-lst-name prd-lst-span">
+                    <{$together_product[num].name}>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      <{/section}>
+    </div>
+  </div>
+  <!-- //組合せ購入 -->
+<{/if}>
+</div>
+
+<{if $option_output_mode}>
+  <div class="hide">
+    <div class="prd-opt-select">
+      <{section name=num loop=$option}>
+        <div class="product-option-unit">
+          <div>
+            <span class="option-select-name option-name"><{$option[num].name}></span>
+            <select name="<{$option[num].select_name}>">
+              <{html_options values=$option_value[num].id output=$option_value[num].name selected=$key}>
+            </select>
+          </div>
+        </div>
+      <{/section}>
+    </div>
+    <div class="prd-opt-table table">
+      <{$option_table}>
+    </div>
+  </div>
+<{/if}>
+
+<script type="text/javascript">
+  $(function () {
+    $('.product-init-num').change(function(){
+      var txt  = $(this).val();
+      var han = txt.replace(/[Ａ-Ｚａ-ｚ０-９]/g,function(s){return String.fromCharCode(s.charCodeAt(0)-0xFEE0)});
+      $(this).val(han);
+    });
+
+    $('img.thumb').parent(":first-child").addClass('thumb-active');
+    $('img.thumb').click(function(){
+      $(this).parent().siblings().removeClass('thumb-active');
+      var selectedSrc = $(this).attr('src');
+      $('img.mainImage').stop().fadeOut(500,
+        function(){
+          $('img.mainImage').attr('src', selectedSrc);
+          $('img.mainImage').fadeIn(500);
+        }
+      );
+      $(this).parent().addClass('thumb-active');
+    });
+  });
+</script>
+
+<!--[if lt IE 9]>
+<script type="text/javascript">
+  $(function (){
+    $('#wrapper').addClass('ie_wrapper');
+  });
+</script>
+<![endif]-->
+
+
+<!-- ハートのアイコンを表示 -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none"><symbol id="heart" viewBox="0 0 1792 1792"><path d="M896 1664q-26 0-44-18l-624-602q-10-8-27.5-26T145 952.5 77 855 23.5 734 0 596q0-220 127-344t351-124q62 0 126.5 21.5t120 58T820 276t76 68q36-36 76-68t95.5-68.5 120-58T1314 128q224 0 351 124t127 344q0 221-229 450l-623 600q-18 18-44 18z"/></symbol>></svg>
+
+<script type="text/javascript">
+/* eコマースのために必要*/
+ga('require', 'linker'); 
+ga('linker:autoLink', ['shop-pro.jp'], false, true);
+</script>

@@ -1,0 +1,18 @@
+<script>
+    var list = document.getElementsByClassName("index");
+    console.log(list.length);
+    
+    if(list[0] !=  undefined){
+        for(var i = 0; i < list.length; ++i){
+            for(var j = 0; j < header.length; ++j){
+                if(header[j].tagName == "H2"){
+                    list[i].innerHTML = list[i].innerHTML +"<li><a href='#"+j+ "'>"+header[j].innerHTML+"<br>"+"</a></li>";
+                }
+                if(header[j].tagName == "H3"){
+                    list[i].innerHTML = list[i].innerHTML +"<li><a href='#"+j+ "'>・"+header[j].innerHTML+"<br>"+"</a></li>";
+                } 
+            }
+            list[i].innerHTML = "<ul>"+ list[i].innerHTML +"</ul>";
+        }
+    }
+</script>

@@ -1,0 +1,225 @@
+<style type="text/css">
+    
+<!--以下オリジナルCSSの内容-->
+
+/*オリジナルCSS始め*/ 
+    
+/*画面に応じてサイズ変更*/   
+@media screen and (min-width: 1100px) {
+    .mainContents{
+        display: block;
+        width: 70%;
+
+    }
+    .subContents{
+        display: block;
+    }
+}
+
+@media screen and (max-width: 1099px) {
+    .mainContents{
+        display: block;
+        width: 100%;
+
+    }
+    .subContents{
+        display: none;
+    }
+}
+
+.originalContents h1{
+    margin-left: 10px;
+    border-bottom: 5px solid gray;
+}
+
+
+.originalContents h2{
+    font-size: 185%;
+    border-left:15px solid gray;
+    padding-left: 10px;
+    margin-left: 10px;
+    margin-bottom: 20px;
+    clear: left;    /*毎度回り込みを戻す*/
+}
+
+.originalContents h3{
+    color: white;
+    background-color: gray;
+    font-size: 130%;
+    padding: 5px;
+    margin-left: 33px;
+}
+
+.originalContents h4{
+    font-size: 130%;
+    margin-top:10px;
+    margin-bottom:0px;
+    padding:5px;
+    text-align: center;
+    border-top: 3px solid gray;
+}
+
+.originalContents ul{
+    font-size: 17px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+/*ここから左側のコンテンツ*/
+
+.breadList li{
+    display: inline-block;
+}
+
+.abstract p{
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+.index h3{
+    padding:5px;
+    display: inline;
+}
+
+.bigImage img{
+    /*display: block;*/
+    /*画像サイズ変える*/
+    width: 100%;
+    height: auto;
+    margin-left:auto;
+    margin-right:auto;
+
+}
+.smallImage img{
+    width: 50%;
+    height: auto;
+    float: left;
+    margin-right: 20px;
+}
+
+.text{
+    font-size: 18px;
+}
+
+/*ここから右側のコンテンツ*/
+
+.subContents h3{
+   text-align: center;
+   margin-top: 5px;
+}
+
+.price{
+    text-align: right;
+}
+
+.rankingBox{
+    position: absolute;
+    background-color:#DCDCDC;
+    top:7%;
+    right:10%;
+    width: 20%;
+    padding: 10px;
+    border: 3px solid gray;
+}
+
+.recommendBox{
+    position: absolute;
+    background-color:#DCDCDC;
+    /*ランキングのコンテンツ量に応じて位置変更*/
+    top:<{$seller_num*8+10}>%;
+    right:10%;
+    width: 20%;
+    margin: auto;
+    padding: 10px;
+    border: 3px solid gray;
+}
+
+.recommendBox img{
+    margin-top: 20px;
+}
+
+/*youtubeの動画サイズ変更*/
+.video{
+    position: relative;
+    overflow: hidden;
+    height: 0px;
+    padding: 30px 0 56.25%;
+    margin-bottom: 30px;
+}
+
+.video iframe{
+    position: absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height: 100%;
+}
+    
+/*オリジナルCSS終わり*/
+    
+</style>
+
+<!--本テキスト（body部分）-->
+<div class="originalContents">
+    
+    <div class="abstract">
+        <h1>
+            指時計！RingClockは最高にクールでおしゃれ【ガジェット】
+        </h1>
+        <p>
+            <!--概要（３行程度）-->
+        </p>
+    </div>
+    
+    <div class="index">
+        <h2>目次</h2>
+            <h3>目次</h3>
+            <ul>
+                <li><a href="#01">紹介</a></li>
+                <li><a href="#02">充電</a></li>
+                <li><a href="#03">時間設定</a></li> 
+            </ul>        
+    </div>
+
+    <!--目次からジャンプ-->
+    <h2 id="01">紹介</h2>
+        <p class="bigImage">
+            <img src="https://file002.shop-pro.jp/PA01374/799/image/RingClock/01-7b06d7513e85c7fe5cb7b5126a1c4bf6667000e61ef574d811e239d29f9223dd.jpg" alt="RingClock①">
+        </p>
+        <p class="bigImage">
+            <img src="https://file002.shop-pro.jp/PA01374/799/image/RingClock//11-7a1bafdbdb3f2d46e3cb5d2a77baeff5c641395a4d395b6bbd8de728c691f6fa.jpg" alt="RingClock②">
+        </p>
+        <p class="text">
+            時間は携帯電話で分かりますから、もうファッションですよね、腕時計って。でも、世の中にはこんな時計もあるんですねぇ。
+Gusztav Szikszai がデザインしたこの指時計が２年前に初めてインターネット上で公開されるやいなや、どうやったらこのプロダクトを入手することができるのか、多くのネットユーザーの間で話題騒然となりました。 目が離せないプロダクトです。
+リングクロックはRingClock Ltd.が製造・卸・販売しています。リングクロックはハンガリーで製造されている指輪型の時計です。
+リングは2層になっており、外側を回転させることによりLEDが光り時間を確認することができます。リングは水泳なども可能な30M防水、充電は専用の充電パッドに乗せ2時間で完了します。
+        </p>
+        <p class="smallImage">
+            <img src="https://file002.shop-pro.jp/PA01374/799/image/RingClock/07-6f02f4cf1ba2368bce69df933e53d4676ee8fccf03314c313eef8f458307f97b.jpg" alt="RingClock③">
+        </p>
+        <p class="text">
+            リングクロックの指輪サイズは全部で18サイズ、日本と海外サイズでは異なりますので、dedegumoの店舗、またはオンラインショップでご購入の際は必ずご自身のサイズをご確認のうえご購入 ください。（オンラインショップでは購入前の事前サイズチェックサービスを無料で行っておりますのでご利用ください。）
+dedegumoではシルバー（LED色／ブルー）を販売しています。ゴールド（LED色／ホワイト）、ブラック（LED色／レッド）は2017年1月発売予定です。
+
+        </p>  
+        
+    <h2 id="02">充電</h2>
+        <p class="smallImage">
+            <img src="https://file002.shop-pro.jp/PA01374/799/image/RingClock//05-6d3d615a0b22c27acf4761240891b48ad80f979f65355e17bd426c1891dc1c2d.jpg" alt="RingClock④">
+        </p>
+        <p class="text">
+            セットの全て。<br>Ring Clock』本体、ワイヤレス充電器『Qi』、説明書、USBケーブル、アダプタ。<br>
+ご注意：充電パッドはリングクロックの充電及び時間設定にのみご使用ください。
+リングクロックを充電パッドの中央に乗せます。（秒を表すLEDライトが回るのは充電していることを示しています。）
+充電時間はおよそ2時間です。
+秒を表すLEDライトが2.5秒で一周する場合は充電中です。
+秒を表すLEDライトが8秒で一周する場合は充電完了です。
+数日間充電パッドの電源を入れたままリングクロックを置きっぱなしにしないでください。故障の原因となります。
+        </p>
+        
+    <p class ="video">
+        <iframe src="https://www.youtube.com/embed/f4VryqO6PII" frameborder="0" allowfullscreen></iframe>
+    </p>
+
+</div>
