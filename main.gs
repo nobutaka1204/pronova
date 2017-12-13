@@ -12,15 +12,15 @@ function mainFunction() {
   createBegin(doc_out);
   
   for(var p in ps){    
-    [purchaseFlag, detailFlag] = createHead( ps[p], doc_out, purchaseFlag, detailFlag);
+    [purchaseFlag, detailFlag] = createHead( ps[p], doc_out, purchaseFlag, detailFlag, info);
     Logger.log("P: "+ purchaseFlag + "  D: "+ detailFlag);
     
     createText( ps[p], doc_out);     
     createLargeImage( ps[p], doc_out, info);
     createSmallImage( ps[p], doc_out, info);   
-    //createIndex( ps[p], doc_out); 
+    createIndex( ps[p], doc_out); 
     //createExternalLink( ps[p], doc_out );
-    createYoutube( ps[p], doc_out );
+    //createYoutube( ps[p], doc_out );
     //createVideo( ps[p], doc_out );
   }
   
@@ -106,18 +106,19 @@ function createEnd( purchaseFlag, detailFlag, doc_out, info ){
 
 
 //見出しのメソッド（要素は2個)
-function createHead( obj, doc_out, purchaseFlag, detailFlag ){
+function createHead( obj, doc_out, purchaseFlag, detailFlag, info ){
   var header = "";
-  var input = ["◆","◇","◎"];
-  var output = ["h2","h3","h4"];
+  var input = ["☆", "◆","◇","◎"];
+  var output = ["h1","h2","h3","h4"];
   TextPicker.open(obj.getText());
 
-  for(var i = 0 ; i < 3 ; i++){
+  for(var i = 0 ; i < 4 ; i++){
   
-    if(obj.findText(input[i]+input[i]+input[i]) != null){
+    if(obj.findText(input[i]+input[i]+input[i]) != null){   　
       header = output[i];
       TextPicker.skipTo(input[i]+input[i]+input[i]);
       Logger.log("共通");
+      
       if( purchaseFlag == true || detailFlag == true ){
           doc_out.appendParagraph('' + 
           '        </div>' + String.fromCharCode(10) +  
@@ -164,14 +165,27 @@ function createHead( obj, doc_out, purchaseFlag, detailFlag ){
   }
   
   var ele = TextPicker.getTarget(); 
-  if(header != ""){
+  if(header == "h2" || header == "h3" || header == "h4"){
     doc_out.appendParagraph('' +   
       '            <' + header + ' class="header">' + ele + '</'+ header + '>' + String.fromCharCode(10) +  
     '');
+  }else if(header == "h1"){
+    Logger.log("タイトル");
+    doc_out.appendParagraph('' +
+    '            <h1>' + info[1] + '</h1>' +　String.fromCharCode(10) +
+    '');
+    
+    if(info[2] != ""){
+        doc_out.appendParagraph('' +
+        '            <div class="abstract">' +　String.fromCharCode(10) +
+        '                <p>' +　String.fromCharCode(10) +
+        '                ' + info[2] +　String.fromCharCode(10) +
+        '                </p>' +　String.fromCharCode(10) +
+        '            </div>' +　String.fromCharCode(10) +
+        '');
+    }
   }
-  
   return [purchaseFlag, detailFlag];
-  
 }
 
 
@@ -179,8 +193,8 @@ function createHead( obj, doc_out, purchaseFlag, detailFlag ){
 function createIndex( obj, doc_out ){
   if(obj.findText("目次") != null){
   doc_out.appendParagraph('' +
-    '      <h4 class="header">目次</h4>' +　String.fromCharCode(10) +
-    '      <div class="index"></div>' + String.fromCharCode(10) +
+    '            <h4 class="header">目次</h4>' +　String.fromCharCode(10) +
+    '            <div class="index"></div>' + String.fromCharCode(10) +
   '');
   }
 }
