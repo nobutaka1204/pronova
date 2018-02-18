@@ -244,7 +244,7 @@ function createText( obj, doc_out ){　
     '');    
   }
   //何もキーワードがないときに文章の形にする
-  if( obj.getText() != "" && obj.findText("＜") == null && obj.findText("◆") == null && obj.findText("◇") == null && obj.findText("◎") == null && obj.findText("目次") == null){
+  if( obj.getText() != "" && obj.findText("＜") == null && obj.findText("◆") == null && obj.findText("◇") == null && obj.findText("◎") == null && obj.findText("目次") == null && obj.findText("//") == null){
     TextPicker.open(obj.getText());
     var ele = TextPicker.getTarget();
     doc_out.appendParagraph('' +     
@@ -388,4 +388,3 @@ function createVideo( obj, doc_out ){
     '');  
   }
 }
-
