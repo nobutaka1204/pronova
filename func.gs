@@ -67,27 +67,63 @@ function createEnd( freeFlag, purchaseFlag, detailFlag, doc_out, info ){
         '    ' +　String.fromCharCode(10) +      
         '        <!--おすすめ表示-->' +　String.fromCharCode(10) + 
         '        <div class="subBox recommendBox"></div>' +　String.fromCharCode(10) +     
-        '    ' +　String.fromCharCode(10) +           
-        '        <!--目次表示-->' +　String.fromCharCode(10) + 
-        '        <div class="subBox indexBox">' +　String.fromCharCode(10) + 
-        '            <h4 class="header">目次</h4>' +　String.fromCharCode(10) + 
-        '            <div class="index"></div>' +　String.fromCharCode(10) +
+        '    ' +　String.fromCharCode(10) +         
+        '        <!--以下可動タグ-->' +　String.fromCharCode(10) + 
+        '        <div class = "moveBox">' +　String.fromCharCode(10) +       
+        '           <!--商品リンク表示-->' +　String.fromCharCode(10) + 
+        '           <div class="subBox productBox"></div>' +　String.fromCharCode(10) + 
+        '           <!--目次表示-->' +　String.fromCharCode(10) + 
+        '           <div class="subBox indexBox">' +　String.fromCharCode(10) + 
+        '              <h4 class="header">目次</h4>' +　String.fromCharCode(10) + 
+        '              <div class="index"></div>' +　String.fromCharCode(10) + 
+        '           </div>' +　String.fromCharCode(10) + 
         '        </div>' +　String.fromCharCode(10) + 
-        '    ' +　String.fromCharCode(10) +       
+        '    ' +　String.fromCharCode(10) +                 
         '    </div>' +　String.fromCharCode(10) + 
         '    ' +　String.fromCharCode(10) +      
         '</div>' +　String.fromCharCode(10) + 
       '');
     }else if(freeFlag == true){
-      doc_out.appendParagraph('' + 
+      
+      doc_out.appendParagraph('' +
         '    </div>' +　String.fromCharCode(10) +
         '    ' +　String.fromCharCode(10) +
         '    <div class="subContents">' +　String.fromCharCode(10) +
         '    ' +　String.fromCharCode(10) +
-        '    </div>' +　String.fromCharCode(10) + 
-        '    ' +　String.fromCharCode(10) +      
-        '</div>' +　String.fromCharCode(10) + 
+        '        <!-- ランキング-->' +　String.fromCharCode(10) +
+        '        <div class="subBox rankingBox"></div>' +　String.fromCharCode(10) +
+        '' +　String.fromCharCode(10) +
+        '        <!-- おすすめ-->' +　String.fromCharCode(10) +
+        '        <div class="subBox recommendBox"></div>' +　String.fromCharCode(10) +
+        '' +　String.fromCharCode(10) +
+        '        <!--購入ページのリンクボタン-->' +　String.fromCharCode(10) +
+        '        <div class="subBox productBox">' +　String.fromCharCode(10) +
+        '            <h3><I class="fa fa-shopping-cart" aria-hidden="true"></I> '+ info[0] +'の購入ページはこちら</h3> ' +
     '');
+      
+      var i = 1; 
+      while(1){
+        if(info[i*4] != ""){
+          doc_out.appendParagraph('' +   
+            '            <a href="' + info[i*4] + '" onClick="ga(' + "'send', 'event', 'detail', 'click', 'right'"+');">' +　String.fromCharCode(10) +
+            '                <img src="'+ info[i*4+2] +'">'+ info[i*4-1] +　String.fromCharCode(10) +
+            '            </a>' +　String.fromCharCode(10) +
+            '            <div class="price">' + info[i*4+1] + '円(税込)</div>' +
+          '');
+          i++;
+        }else{
+          break;
+        }
+      }
+      
+      doc_out.appendParagraph('' +
+        '        </div>' +　String.fromCharCode(10) +
+        '    ' +　String.fromCharCode(10) +
+        '    </div>' +　String.fromCharCode(10) +
+        '    ' +　String.fromCharCode(10) +
+        '</div>' +　String.fromCharCode(10) +
+      '');
+    
     }
     
 }
@@ -221,12 +257,22 @@ function createText( obj, doc_out ){　
 function createLargeImage( obj, doc_out, info ){
   if(obj.findText("画像大") != null){
     var ele = assignElement( obj, "画像大" );
-    doc_out.appendParagraph('' +
-      '            <div class="image">'+ String.fromCharCode(10) +
-      '                <p class="largeImage">'+ String.fromCharCode(10) +
-      '                    <img src="https://file002.shop-pro.jp/PA01374/799/image/' + info[0] + '/'+ ele[0] +'" alt="'+ ele[1] +'">'+ String.fromCharCode(10) +
-      '                </p>'+
-    '');      
+    //フォルダ名を指定するか否かを確認
+    if(ele[0].indexOf('/') == -1){   
+      doc_out.appendParagraph('' +
+        '            <div class="image">'+ String.fromCharCode(10) +
+        '                <p class="largeImage">'+ String.fromCharCode(10) +
+        '                    <img src="https://file002.shop-pro.jp/PA01374/799/image/' + info[0] + '/'+ ele[0] +'" alt="'+ ele[1] +'">'+ String.fromCharCode(10) +
+        '                </p>'+
+        '');
+    }else{
+      doc_out.appendParagraph('' +
+        '            <div class="image">'+ String.fromCharCode(10) +
+        '                <p class="largeImage">'+ String.fromCharCode(10) +
+        '                    <img src="https://file002.shop-pro.jp/PA01374/799/image/' + ele[0] +'" alt="'+ ele[1] +'">'+ String.fromCharCode(10) +
+        '                </p>'+
+        ''); 
+    }
       //出典の有無を確認
       if( ele[2] !=　"" ){
       doc_out.appendParagraph('' +
@@ -247,12 +293,22 @@ function createLargeImage( obj, doc_out, info ){
 function createSmallImage( obj, doc_out,info ){
   if(obj.findText("画像小") != null){
     var ele = assignElement( obj, "画像小" );
-    doc_out.appendParagraph('' +
-      '            <div class="image">'+ String.fromCharCode(10) +
-      '                <p class="smallImage">'+ String.fromCharCode(10) +
-      '                    <img src="https://file002.shop-pro.jp/PA01374/799/image/' + info[0] + '/'+ ele[0] +'" alt="'+ ele[1] +'">'+ String.fromCharCode(10) +
-      '                </p>'+
-    '');      
+    //フォルダ名を指定するか否かを確認
+    if(ele[0].indexOf('/') == -1){  
+      doc_out.appendParagraph('' +
+        '            <div class="image">'+ String.fromCharCode(10) +
+        '                <p class="smallImage">'+ String.fromCharCode(10) +
+        '                    <img src="https://file002.shop-pro.jp/PA01374/799/image/' + info[0] + '/'+ ele[0] +'" alt="'+ ele[1] +'">'+ String.fromCharCode(10) +
+        '                </p>'+
+      ''); 
+    }else{
+      doc_out.appendParagraph('' +
+        '            <div class="image">'+ String.fromCharCode(10) +
+        '                <p class="smallImage">'+ String.fromCharCode(10) +
+        '                    <img src="https://file002.shop-pro.jp/PA01374/799/image/' + ele[0] +'" alt="'+ ele[1] +'">'+ String.fromCharCode(10) +
+        '                </p>'+
+        ''); 
+    }
       //出典の有無を確認
       if( ele[2] !=　"" ){
       doc_out.appendParagraph('' +
@@ -266,6 +322,33 @@ function createSmallImage( obj, doc_out,info ){
       '            </div>'+ String.fromCharCode(10) + 
     '');
       }
+  }
+}
+
+//内部リンクのメソッド（要素は1個）
+function createInternalLink( obj, doc_out, info, freeFlag ){
+  if(freeFlag == false){
+    var contents = "詳細ページ"; 
+  }else{
+    var contents = "購入ページ";
+  }
+  
+  if(obj.findText("内部リンク") != null){
+    var ele = assignElement( obj, "内部リンク" );
+    //Logger.log(ele[1]);
+    if(ele[1] == ""){    
+      doc_out.appendParagraph('' +
+      '    <div class="internalLink">'+ String.fromCharCode(10) +
+      '        <a href="' +ele[0]+ '"><i class="fa fa-link" aria-hidden="true"></i> ' + info[0] + 'の'+ contents + 'はこちら</a>'+ String.fromCharCode(10) +
+	  '    </div>'+ String.fromCharCode(10) +
+      '');
+    }else{
+      doc_out.appendParagraph('' +
+      '    <div class="internalLink">'+ String.fromCharCode(10) +
+      '        <a href="' +ele[0]+ '"><i class="fa fa-link" aria-hidden="true"></i> ' + ele[1] + 'の'+ contents + 'はこちら</a>'+ String.fromCharCode(10) +
+	  '    </div>'+ String.fromCharCode(10) +
+      '');
+    }
   }
 }
 

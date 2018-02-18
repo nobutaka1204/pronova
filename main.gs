@@ -8,10 +8,10 @@ function mainFunction() {
   var detailFlag = false; //詳細欄に表示するか
 
   
-  var info = ["商品名","タイトル","概要","価格"];
+  var info = ["商品名","タイトル","概要","","","","","","","","","","","",""];
   [info, freeFlag] = registerInfo(info, ps[0], doc_out);
-  Logger.log(freeFlag);
   createBegin(doc_out);
+  Logger.log(info);
   
   for(var p in ps){
     [purchaseFlag, detailFlag] = createHead( ps[p], doc_out, freeFlag, purchaseFlag, detailFlag, info);
@@ -20,9 +20,10 @@ function mainFunction() {
     createLargeImage( ps[p], doc_out, info);
     createSmallImage( ps[p], doc_out, info);   
     createIndex( ps[p], doc_out); 
-    //createExternalLink( ps[p], doc_out );
-    //createYoutube( ps[p], doc_out );
-    //createVideo( ps[p], doc_out );
+    createInternalLink( ps[p], doc_out, info, freeFlag )
+    createExternalLink( ps[p], doc_out );
+    createYoutube( ps[p], doc_out );
+    createVideo( ps[p], doc_out );
   }
   
   createEnd( freeFlag, purchaseFlag, detailFlag, doc_out, info );
