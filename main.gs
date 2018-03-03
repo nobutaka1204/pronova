@@ -3,6 +3,7 @@ function mainFunction() {
   var doc_in = DocumentApp.openByUrl("https://docs.google.com/document/d/12AcY5TiCF9dAatD32YeHLwPTM6HrMcbzUA-_BXGOMYY/edit"); //入力(要URL)
   var doc_out = DocumentApp.create(doc_in.getName() + "のhtml");  //出力  
   var ps = doc_in.getParagraphs();
+  var headEle = []; //ヘッダーの要素
   var freeFlag = false; //フリーページか否か
   var purchaseFlag = false; //商品欄に表示するか
   var detailFlag = false; //詳細欄に表示するか
@@ -14,7 +15,7 @@ function mainFunction() {
   Logger.log(info);
   
   for(var p in ps){
-    [purchaseFlag, detailFlag] = createHead( ps[p], doc_out, freeFlag, purchaseFlag, detailFlag, info);
+    [purchaseFlag, detailFlag] = createHead( ps[p], doc_out, freeFlag, purchaseFlag, detailFlag, info, headEle);
     Logger.log("P: "+ purchaseFlag + "  D: "+ detailFlag);
     createText( ps[p], doc_out);     
     createLargeImage( ps[p], doc_out, info);

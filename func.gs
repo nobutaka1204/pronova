@@ -32,7 +32,7 @@ function registerInfo(info,obj,doc_out){
 
 //各キーワードごとに要素を割り当てるメソッド
 function assignElement( obj, keyword ){
-  TextPicker.open(obj.getText());
+  TextPicker.open(removeComment(obj));
   TextPicker.skipTo(keyword);
   var ele = ["","","",""];
   for(var i in ele){
@@ -40,6 +40,17 @@ function assignElement( obj, keyword ){
     TextPicker.skipTo(ele[i]);
   }  
   return ele;
+}
+
+//コメントアウトを除くメソッド
+function removeComment(obj){
+  TextPicker.open(obj.getText());  
+  if(obj.findText("//") != null){
+    TextPicker.skipTo("//"); 
+    return obj.getText().replace(( "//" + TextPicker.getTarget() ),"");
+  }else{
+    return obj.getText();
+  }
 }
 
 function createBegin(doc_out){
@@ -128,21 +139,37 @@ function createEnd( freeFlag, purchaseFlag, detailFlag, doc_out, info ){
     
 }
 
+//重複コンテンツを確認（モバイル版ではじく）
+function judgeDuplicate( ele ,headEle){
+  var dup = "";
+  Logger.log(ele);
+  for (var i=0;i<headEle.length;i++) {
+     if(headEle[i] == ele){
+        Logger.log("重複");
+        dup = " notMobile";
+     }
+  }
+  headEle.push(TextPicker.getTarget());
+  return dup;
+}
 
 //見出しのメソッド（要素は2個)
-function createHead( obj, doc_out, freeFlag, purchaseFlag, detailFlag, info ){
+function createHead( obj, doc_out, freeFlag, purchaseFlag, detailFlag, info, headEle){
   var header = "";
   var input = ["☆", "◆","◇","◎"];
   var output = ["h1","h2","h3","h4"];
-  TextPicker.open(obj.getText());
+  var dup ="";
+  
+  TextPicker.open(removeComment(obj));
 
   if(freeFlag == false){
     for(var i = 0 ; i < 4 ; i++){
     
       if(obj.findText(input[i]+input[i]+input[i]) != null){   　
         header = output[i];
+        TextPicker.skipTo(input[i]+input[i]+input[i]);
         Logger.log("共通");
-        
+        dup = judgeDuplicate( TextPicker.getTarget() ,headEle );
         if( purchaseFlag == true || detailFlag == true ){
             doc_out.appendParagraph('' + 
             '        </div>' + String.fromCharCode(10) +  
@@ -151,13 +178,14 @@ function createHead( obj, doc_out, freeFlag, purchaseFlag, detailFlag, info ){
         purchaseFlag = true;
         detailFlag = true;
         doc_out.appendParagraph('' + 
-          '        <div class="common">' + String.fromCharCode(10) +  
+          '        <div class="common'+ dup +'">' + String.fromCharCode(10) +  
         ''); 
         
       }else if(obj.findText(input[i]+input[i]) != null){
         header = output[i];
         TextPicker.skipTo(input[i]+input[i]);
         Logger.log("詳細");
+        dup = judgeDuplicate( TextPicker.getTarget() ,headEle);
         if( purchaseFlag == true || detailFlag == true ){
             doc_out.appendParagraph('' + 
             '        </div>' + String.fromCharCode(10) +  
@@ -166,13 +194,14 @@ function createHead( obj, doc_out, freeFlag, purchaseFlag, detailFlag, info ){
         purchaseFlag = false;
         detailFlag = true;
         doc_out.appendParagraph('' + 
-          '        <div class="detail">' + String.fromCharCode(10) +  
+          '        <div class="detail'+ dup +'">' + String.fromCharCode(10) +  
         '');
         
       }else if(obj.findText(input[i]) != null){
         header = output[i];
         TextPicker.skipTo(input[i]);
         Logger.log("商品");
+        dup = judgeDuplicate( TextPicker.getTarget() ,headEle );
         if( purchaseFlag == true || detailFlag == true ){
             doc_out.appendParagraph('' + 
             '        </div>' + String.fromCharCode(10) +  
@@ -181,7 +210,7 @@ function createHead( obj, doc_out, freeFlag, purchaseFlag, detailFlag, info ){
         purchaseFlag = true;
         detailFlag = false;
         doc_out.appendParagraph('' + 
-          '       <div class="purchase">' + String.fromCharCode(10) +  
+          '       <div class="purchase'+ dup +'">' + String.fromCharCode(10) +  
         '');
         
       }
@@ -224,7 +253,6 @@ function createHead( obj, doc_out, freeFlag, purchaseFlag, detailFlag, info ){
   return [purchaseFlag, detailFlag];
 }
 
-
 //目次のメソッド（要素なし）
 function createIndex( obj, doc_out ){
   if(obj.findText("目次") != null){
@@ -244,8 +272,8 @@ function createText( obj, doc_out ){　
     '');    
   }
   //何もキーワードがないときに文章の形にする
-  if( obj.getText() != "" && obj.findText("＜") == null && obj.findText("◆") == null && obj.findText("◇") == null && obj.findText("◎") == null && obj.findText("目次") == null && obj.findText("//") == null){
-    TextPicker.open(obj.getText());
+  if( obj.getText() != "" && obj.findText("＜") == null && obj.findText("◆") == null && obj.findText("◇") == null && obj.findText("◎") == null && obj.findText("目次") == null){
+    TextPicker.open(removeComment(obj));
     var ele = TextPicker.getTarget();
     doc_out.appendParagraph('' +     
       '            <p class="text">' + ele + '</p>' + String.fromCharCode(10) +   
